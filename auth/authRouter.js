@@ -45,7 +45,7 @@ router.post('/login', (req, res) => {
 function generateToken(username) {
   const payload = {
     username,
-    department: 'Front-End'
+    department: 'student'
   };
   const secret = process.env.JWT_SECRET || 'secrets are fun'
   const options = {
