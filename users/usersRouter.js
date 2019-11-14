@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Users = require('./usersModel');
 const restricted = require('../auth/restrictedMiddleware')
 
-router.get('/', restricted, checkDepartment('CTO'), (req, res) => {
+router.get('/', restricted, checkDepartment(['dog', 'CTO']),(req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -13,9 +13,9 @@ router.get('/', restricted, checkDepartment('CTO'), (req, res) => {
 
 module.exports = router;
 
-function checkDepartment(department) {
+function checkDepartment(departments) {
   return function(req, res, next) {
-    if(department === req.decodedToken.department) {
+    if(departments.includes(req.decodedToken.department)) {
       next()
     } else {
       res.status(403).json({ message: 'Unable to enter due to invalid information' });
